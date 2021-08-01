@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Render two elements side-by-side with React Fragments</title>
+</head>
+<body>
+<a href="https://egghead.io/lessons/react-render-two-elements-side-by-side-with-react-fragments" target="_blank">https://egghead.io/lessons/react-render-two-elements-side-by-side-with-react-fragments</a>
+<br>
+<br>
+<div id="root"></div>
+
+<!-- ReactJS create element -->
+<script src="https://unpkg.com/react@16.12.0/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.14.9/babel.js"></script>
+<script type="text/babel">
+
+    const childrenHello = <span>Hello</span>
+    const childrenWorld = <strong>World</strong>
+    const children = [childrenHello, childrenWorld]
+    // I can pass an array of react element to render more than one
+    ReactDOM.render(children,document.getElementById('root'));
+
+    let element;
+    element = <React.Fragment>{childrenHello} {childrenWorld}</React.Fragment>
+    // this is equivalent to the line above, just a shortcut
+    element = <>{childrenHello} {childrenWorld}</>
+
+    ReactDOM.render(element,document.getElementById('root'));
+    console.log(children);
+</script>
+
+</body>
+</html>
