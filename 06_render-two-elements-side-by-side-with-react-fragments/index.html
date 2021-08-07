@@ -25,7 +25,8 @@
     let element;
     element = <React.Fragment>{childrenHello} {childrenWorld}</React.Fragment>
     // this is equivalent to the line above, just a shortcut
-    element = <>{childrenHello} {childrenWorld}</>
+    const childrenReact = <span>React!</span>
+    element = <>{childrenHello} {childrenWorld} {childrenReact}</>
 
     ReactDOM.render(element,document.getElementById('root'));
     console.log(children);
