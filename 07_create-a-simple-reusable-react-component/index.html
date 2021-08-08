@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create a Simple Reusable React Component</title>
+</head>
+<body>
+<a href="https://egghead.io/lessons/react-create-a-simple-reusable-react-component-4c3999c5" target="_blank">https://egghead.io/lessons/react-create-a-simple-reusable-react-component-4c3999c5</a>
+<br>
+<br>
+<div id="root"></div>
+
+<!-- ReactJS create element -->
+<script src="https://unpkg.com/react@16.12.0/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.14.9/babel.js"></script>
+<script type="text/babel">
+
+    const Message = (props = {}) => <div className="message">{props.msg||''}</div>
+    const MessageChildren = (props = {}) => <div className="message-children">{props.children||''}</div>
+
+    const element = (
+        <div className="container">
+            {Message({msg: "Hello World!"})}
+            {Message({msg: "Goodbye World!"})}
+            <Message>Hello Message</Message>
+            <Message msg='Hello Message'/>
+            <MessageChildren>Hello MessageChildren</MessageChildren>
+            {MessageChildren({children: "Hello Again MessageChildren"})}
+            <MessageChildren children="Hello Again Children MessageChildren"></MessageChildren>
+
+            <MessageChildren>My parent message
+                <MessageChildren>child first Message</MessageChildren>
+                <MessageChildren>child second Message</MessageChildren>
+            </MessageChildren>
+
+        </div>
+    )
+
+    console.log(<Message>Hello Message</Message>)
+
+    ReactDOM.render(element,document.getElementById('root'));
+</script>
+
+</body>
+</html>
