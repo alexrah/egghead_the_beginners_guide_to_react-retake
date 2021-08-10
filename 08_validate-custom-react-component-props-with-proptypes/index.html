@@ -26,24 +26,25 @@
        )
    }
 
+   /* implementing custom propType check on prop firstName */
+   SayHello.propTypes = {
+       firstName(props,propName,componentName){
+           if(typeof props[propName] !== 'string'){
+               return new Error(`Component ${componentName} requires prop ${propName} to be of type string but you passed a value of type ${typeof props[propName]}`)
+           }
+       }
+   }
 
-   // SayHello.propTypes = {
-   //   firstName(props, propName, componentName){
-   //       if(typeof props[propName] !== 'string'){
-   //           return new Error('not string!')
-   //       }
-   //   }
-   // }
-
+   /* using https://unpkg.com/prop-types@15.6/prop-types.js which used to be part of React library, but needs to be installed with `npm install prop-types` */
    SayHello.propTypes = {
        firstName: PropTypes.string.isRequired,
-       lastName:  PropTypes.string.isRequired
+       lastName: PropTypes.string.isRequired
    }
 
 
    const element = <SayHello firstName={true} />
 
-    ReactDOM.render(element,document.getElementById('root'));
+   ReactDOM.render(element,document.getElementById('root'));
 </script>
 
 </body>
