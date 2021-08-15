@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage the useEffect dependency array</title>
+</head>
+<body>
+<a href="https://egghead.io/lessons/react-manage-the-useeffect-dependency-array" target="_blank">https://egghead.io/lessons/react-manage-the-useeffect-dependency-array</a>
+<br>
+<br>
+<div id="root"></div>
+
+<!-- ReactJS create element -->
+<script src="https://unpkg.com/react@16.12.0/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.14.9/babel.js"></script>
+<!--<script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>-->
+
+<script type="text/babel">
+    const rootElem = document.getElementById('root');
+
+    function Greeting(){
+        console.log('app rendered');
+        const [name,setName] = React.useState( () => {
+            console.log('useState');
+            return window.localStorage.getItem('greeting_name') || ''
+            }
+        );
+
+        const handleChange = (e) => { setName(e.target.value)}
+
+        React.useEffect(() => {
+            console.log('useEffect');
+            window.localStorage.setItem('greeting_name',name)
+        },[name])
+        return (
+            <div>
+                <form>
+                    <label htmlFor="name">Name:</label>
+                    <input value={name} type="text" id="name" onChange={handleChange}/>
+                </form>
+                <p>{name? <strong>{name}</strong>: 'Please type your name' }</p>
+            </div>
+        )
+
+    }
+
+    function App(){
+        const [count, setCount] = React.useState(0);
+        return (
+            <>
+                <button onClick={(e) => { setCount(count => count+1)}}>{count}</button>
+                <Greeting />
+            </>
+        )
+
+    }
+
+    ReactDOM.render(<App />,rootElem)
+
+</script>
+
+</body>
+</html>
