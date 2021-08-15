@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create reusable custom hooks</title>
+</head>
+<body>
+<a href="https://egghead.io/lessons/react-create-reusable-custom-hooks" target="_blank">https://egghead.io/lessons/react-create-reusable-custom-hooks</a>
+<br>
+<br>
+<div id="root"></div>
+
+<!-- ReactJS create element -->
+<script src="https://unpkg.com/react@16.12.0/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.14.9/babel.js"></script>
+<!--<script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>-->
+
+<script type="text/babel">
+    const rootElem = document.getElementById('root');
+
+    function useLocalStorageState(key, defaultValue = ''){
+        const [state,setState] = React.useState( () => {
+                console.log('useState');
+                return window.localStorage.getItem(key) || defaultValue
+            }
+        );
+
+        React.useEffect(() => {
+            console.log('useEffect');
+            window.localStorage.setItem(key,state)
+        },[key, state])
+
+        return [state, setState]
+    }
+
+    function Greeting(){
+        console.log('app rendered');
+
+        const [name,setName] =  useLocalStorageState('greeting_name','');
+
+        const handleChange = (e) => { setName(e.target.value)}
+
+        return (
+            <div>
+                <form>
+                    <label htmlFor="name">Name:</label>
+                    <input value={name} type="text" id="name" onChange={handleChange}/>
+                </form>
+                <p>{name? <strong>{name}</strong>: 'Please type your name' }</p>
+            </div>
+        )
+
+    }
+
+    function App(){
+        const [count, setCount] = useLocalStorageState('greeting_count',0);
+        return (
+            <>
+                <button onClick={() => { setCount(count => parseInt(count)+1)}}>{count}</button>
+                <Greeting />
+            </>
+        )
+
+    }
+
+    ReactDOM.render(<App />,rootElem)
+
+</script>
+
+</body>
+</html>
