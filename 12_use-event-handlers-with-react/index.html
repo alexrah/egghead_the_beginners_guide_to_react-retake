@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Use Event Handlers with React</title>
+</head>
+<body>
+<a href="https://egghead.io/lessons/react-use-event-handlers-with-react-ab060351" target="_blank">https://egghead.io/lessons/react-use-event-handlers-with-react-ab060351</a>
+<br>
+<br>
+<div id="root"></div>
+
+<!-- ReactJS create element -->
+<script src="https://unpkg.com/react@16.12.0/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.14.9/babel.js"></script>
+<!--<script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>-->
+
+<script type="text/babel">
+    const rootElem = document.getElementById('root');
+
+    const state = {eventCount: 0, username: ""}
+    
+    function App() {
+
+        const handleClick = () => {
+            setState({eventCount: state.eventCount+1})
+        }
+
+        const handleInput = (event) => {
+            // event.persist();
+            console.log(event)
+            setState({username: event.target.value})
+        }
+
+        return (
+            <div>
+                <p>There have been {state.eventCount} events</p>
+                <button onClick={handleClick}>Click me</button>
+                <p>You typed: {state.username}</p>
+                <p><input type="text" onChange={handleInput}/></p>
+            </div>
+        )
+    }
+
+    function setState(newState){
+        Object.assign(state,newState)
+        renderApp()
+    }
+
+    function renderApp(){
+        ReactDOM.render(<App />, rootElem);
+    }
+
+    renderApp();
+</script>
+
+</body>
+</html>
