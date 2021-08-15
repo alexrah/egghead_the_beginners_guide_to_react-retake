@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Use Event Handlers with React</title>
+</head>
+<body>
+<a href="https://egghead.io/lessons/react-use-event-handlers-with-react-ab060351" target="_blank">https://egghead.io/lessons/react-use-event-handlers-with-react-ab060351</a>
+<br>
+<br>
+<div id="root"></div>
+
+<!-- ReactJS create element -->
+<script src="https://unpkg.com/react@16.12.0/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.14.9/babel.js"></script>
+<!--<script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>-->
+
+<script type="text/babel">
+    const rootElem = document.getElementById('root');
+
+    function Greeting(){
+
+        const [name,setName] = React.useState('');
+        const [name2,setName2] = React.useState('');
+        const handleChange = (e) => { setName(e.target.value)}
+        const handleChange2= (e) => { setName2(e.target.value)}
+        return (
+            <div>
+                <form>
+                    <label htmlFor="name">Name:</label>
+                    <input type="text" id="name" onChange={handleChange}/>
+                </form>
+                <p>{name? <strong>{name}</strong>: 'Please type your name' }</p>
+                <form>
+                    <label htmlFor="name">Name:</label>
+                    <input type="text" id="name" onChange={handleChange2}/>
+                </form>
+                <p>{name2? <strong>{name2}</strong>: 'Please type your name' }</p>
+            </div>
+        )
+
+    }
+
+    ReactDOM.render(<Greeting />,rootElem)
+
+</script>
+
+</body>
+</html>
