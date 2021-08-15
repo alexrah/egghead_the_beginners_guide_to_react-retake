@@ -51,8 +51,15 @@
         } else {
             modded_children = children
         }
+        const props = {
+            className: `box ${size} ${className}`.trim(),
+            style: {fontStyle: 'italic', ...style},
+            children: modded_children,
+            ...rest
+        }
         console.log(modded_children);
-        return <div className={`box ${size} ${className}`.trim()} style={{fontStyle: 'italic', ...style}} {...rest}>{modded_children}</div>
+        // return <div className={`box ${size} ${className}`.trim()} style={{fontStyle: 'italic', ...style}} {...rest}>{modded_children}</div>
+        return <div {...props} />
     }
 
     const element = (
