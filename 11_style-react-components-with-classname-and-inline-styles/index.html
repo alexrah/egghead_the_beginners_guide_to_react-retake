@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Rerender a React Application</title>
+    <title>Style React Components with className and inline Styles</title>
 </head>
 <body>
-<a href="https://egghead.io/lessons/react-rerender-a-react-application-ea98531e" target="_blank">https://egghead.io/lessons/react-rerender-a-react-application-ea98531e</a>
+<a href="https://egghead.io/lessons/react-style-react-components-with-classname-and-inline-styles" target="_blank">https://egghead.io/lessons/react-style-react-components-with-classname-and-inline-styles</a>
 <br>
 <br>
 <div id="root"></div>
@@ -14,27 +14,62 @@
 <script src="https://unpkg.com/react@16.12.0/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.development.js"></script>
 <script src="https://unpkg.com/@babel/standalone@7.14.9/babel.js"></script>
-<script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
+<!--<script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>-->
+<style>
+    .box {
+        border: 1px solid;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .box--small {
+        width: 90px;
+        height: 90px;
+    }
+    .box--medium {
+        width: 180px;
+        height: 180px;
+    }
+    .box--large {
+        width: 270px;
+        height: 270px;
+    }
+</style>
+
+
+<!--<script type="text/babel" data-presets="react,typescript" data-type="module" src="./main.tsx"></script>-->
 
 <script type="text/babel">
-
     const rootElem = document.getElementById('root');
 
-   setInterval(()=>{
-       const time = new Date().toLocaleTimeString();
-       const element = (
-           <div>
-            <p>Hello World</p>
-           {time}
-           </div>
-       )
-       ReactDOM.render(element,rootElem);
+    const Box = ({className = '', style, size, label,children = [], ...rest}) => {
+        size = size?`box--${size}`:'';
+        let modded_children = [];
+        if(label){
+            modded_children = [<b key={Math.floor(Math.random()*3)}>{label}</b>,...children]
+        } else {
+            modded_children = children
+        }
+        console.log(modded_children);
+        return <div className={`box ${size} ${className}`.trim()} style={{fontStyle: 'italic', ...style}} {...rest}>{modded_children}</div>
+    }
 
-       /* compare with a standard JS element: selecting text "hello world" won't keep focus  */
-       // const timeElem  = document.createElement('div');
-       // rootElem.innerHTML = `<p>Hello World</p> ${time}`;
-   },1000)
+    const element = (
+        <div>
+            <Box size="small" style={{backgroundColor: 'lightblue', }} id="my-box">
+                <span>small lightblue box</span>
+            </Box>
+            <Box size="medium" style={{backgroundColor: 'pink'}} label="medium box">
+                <h1>Hello Here</h1>
+                <span>medium pink box</span>
+            </Box>
+            <Box size="large" style={{backgroundColor: 'orange'}} label="small lightblue box label">
+            </Box>
+        </div>
+    );
 
+    ReactDOM.render(element, rootElem);
 </script>
 
 </body>
