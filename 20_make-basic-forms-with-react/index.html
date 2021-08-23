@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Make Basic Forms with React</title>
+</head>
+<body>
+<a href="https://egghead.io/lessons/react-make-basic-forms-with-react-46807143" target="_blank">https://egghead.io/lessons/react-make-basic-forms-with-react-46807143</a>
+<br>
+<br>
+<div id="root"></div>
+
+<!-- ReactJS create element -->
+<script src="https://unpkg.com/react@16.12.0/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.14.9/babel.js"></script>
+
+<script type="text/babel">
+    const rootElem = document.getElementById('root');
+
+    function SimpleForm(){
+
+        // const inputNameRef = React.useRef('');
+
+        const handleSubmit = (e) => {
+            e.preventDefault();
+            e.persist();
+            console.log(e);
+            console.dir(e.target);
+            // const name = document.querySelector('input').value
+            // const name = e.target.elements[0].value
+            // const name = e.target[0].value
+            // const name = inputNameRef.current.value
+            const name = e.target.elements.inputName.value
+
+            alert(`Hello ${name}`)
+        }
+
+        const form = (
+            <form onSubmit={handleSubmit}>
+                <label htmlFor="inputName">Name:</label>
+                {/*<input ref={inputNameRef} id="inputName" type="text"/> */}
+                <input id="inputName" type="text"/>
+                <button type="submit">Submit</button>
+            </form>
+        )
+        return form
+    }
+
+    ReactDOM.render(<SimpleForm />,rootElem)
+
+</script>
+
+</body>
+</html>
