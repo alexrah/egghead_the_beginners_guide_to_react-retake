@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Controlling Form Values with React</title>
+</head>
+<body>
+<a href="https://egghead.io/lessons/react-controlling-form-values-with-react-b7e231a3" target="_blank">https://egghead.io/lessons/react-controlling-form-values-with-react-b7e231a3</a>
+<br>
+<br>
+<div id="root"></div>
+
+<!-- ReactJS create element -->
+<script src="https://unpkg.com/react@16.12.0/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.14.9/babel.js"></script>
+
+<script type="text/babel">
+    const rootElem = document.getElementById('root');
+
+    function SimpleForm(){
+
+        const [username,setUserName] = React.useState('');
+        const [isError,setIsError] = React.useState(false);
+
+        React.useEffect(()=>{
+            console.log('useEffect');
+            const isLowerCase = username === username.toLowerCase()
+            if(!isError){
+                setIsError(isLowerCase ? null : 'Username must be lowercase')
+            }
+
+        },[username])
+
+        const handleSubmit = (e) => {
+            e.preventDefault();
+            console.log(e);
+            console.dir(e.target);
+            const name = e.target.elements.inputName.value
+
+            alert(`Hello ${name}`)
+        }
+
+        const handleChange = (e) => {
+            e.persist();
+            setUserName(e.target.value);
+            setTimeout(() => {
+                setUserName(e.target.value.toLowerCase())
+            }, 100)
+        }
+
+        const form = (
+            <form onSubmit={handleSubmit}>
+                <label htmlFor="inputName">Name:</label>
+                <input id="inputName" type="text" onChange={handleChange} value={username}/>
+                <button type="submit">Submit</button>
+                <p style={{color: "grey"}}>{isError}</p>
+            </form>
+        )
+        return form
+    }
+
+    ReactDOM.render(<SimpleForm />,rootElem)
+
+</script>
+
+</body>
+</html>
