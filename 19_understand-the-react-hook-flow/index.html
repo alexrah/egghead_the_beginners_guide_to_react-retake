@@ -28,6 +28,7 @@
         const [loggingState,setLoggingState] = React.useState(()=>{
             loggin_func('useState callback');
             return storageState;
+            return default_value;
         })
 
         React.useEffect(()=>{
@@ -76,14 +77,21 @@
     function Counter(){
 
         const counterLog = (msg) => {
-            mylog(`Child: ${msg}`,'green');
+            mylog(`     Child: ${msg}`,'green');
         }
 
         counterLog('render start');
 
         const [counter, setCounter] = useLoggingState('counter',0,counterLog)
 
-        const element =  <button onClick={e=>{ setCounter(parseInt(counter) + 1) }} >{counter}</button>
+        const element = (
+            <>
+                <button onClick={e=>{ setCounter(parseInt(counter) + 1) }} >{counter}</button>
+                <label>
+                    <button onClick={e => { setCounter(0)}} >clear count</button>
+                </label>
+            </>
+        )
 
         counterLog('render end');
 
@@ -100,26 +108,23 @@
 
         const element = <div>
             <label>
-                <input type="checkbox" checked={showChild} onChange={e => {setShowChild(e.target.checked)}}/>
+                <input type="checkbox" checked={showChild === true || showChild === 'true'} onChange={e => {setShowChild(e.target.checked)}}/>
                 show child
             </label>
             <div style={{
                 border: "2px solid black",
-                width: "50px",
-                height: "50px",
+                width: "150px",
+                height: "150px",
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "center"
+                justifyContent: "space-evenly",
+                alignItems: "center",
+                flexFlow: "column"
             }}>
-                {showChild
+                {showChild === "true" || showChild === true
                     ?<Counter />
                     : null
                 }
             </div>
-            <label>
-
-                clear data
-            </label>
         </div>
 
         appLog('render end');
