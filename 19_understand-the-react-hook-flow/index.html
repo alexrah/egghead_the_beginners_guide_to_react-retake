@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Understand the React Hook Flow</title>
+</head>
+<body>
+<a href="https://egghead.io/lessons/react-understand-the-react-hook-flow" target="_blank">https://egghead.io/lessons/react-understand-the-react-hook-flow</a>
+<br>
+<br>
+<div id="root"></div>
+
+<!-- ReactJS create element -->
+<script src="https://unpkg.com/react@16.12.0/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.14.9/babel.js"></script>
+
+<script type="text/babel">
+    const rootElem = document.getElementById('root');
+
+    function mylog(msg,color = 'pink'){
+        console.log(`%c${msg}`,`color: ${color}`);
+    }
+
+    function useLoggingState(name, default_value = '', loggin_func){
+        const [storageState,setStorageState] = useLocalStorageState(name,default_value);
+
+        const [loggingState,setLoggingState] = React.useState(()=>{
+            loggin_func('useState callback');
+            return storageState;
+        })
+
+        React.useEffect(()=>{
+            loggin_func('useEffect no deps');
+            return () => {
+                loggin_func('useEffect no deps callback')
+            }
+        })
+
+        React.useEffect(()=>{
+            loggin_func('useEffect empty deps');
+            return () => {
+                loggin_func('useEffect empty deps callback')
+            }
+        },[])
+
+        React.useEffect(()=>{
+            loggin_func('useEffect with deps');
+            setStorageState(()=>{
+                return loggingState
+            });
+
+            return () => {
+                loggin_func('useEffect with deps callback')
+            }
+        },[loggingState])
+
+        return [loggingState,setLoggingState];
+    }
+
+    function useLocalStorageState(key, defaultValue = ''){
+        const [state,setState] = React.useState( () => {
+                console.log('useLocalStorageState: useState');
+                return window.localStorage.getItem(key) || defaultValue
+            }
+        );
+
+        React.useEffect(() => {
+            console.log('useLocalStorageState: useEffect');
+            window.localStorage.setItem(key,state)
+        },[key, state])
+
+        return [state, setState]
+    }
+
+    function Counter(){
+
+        const counterLog = (msg) => {
+            mylog(`Child: ${msg}`,'green');
+        }
+
+        counterLog('render start');
+
+        const [counter, setCounter] = useLoggingState('counter',0,counterLog)
+
+        const element =  <button onClick={e=>{ setCounter(parseInt(counter) + 1) }} >{counter}</button>
+
+        counterLog('render end');
+
+        return element;
+    }
+
+    function App(){
+        const appLog = (msg) => {
+            mylog(`App: ${msg}`,'pink');
+        }
+        appLog('render start');
+
+        const [showChild, setShowChild] = useLoggingState('showChild',false,appLog)
+
+        const element = <div>
+            <label>
+                <input type="checkbox" checked={showChild} onChange={e => {setShowChild(e.target.checked)}}/>
+                show child
+            </label>
+            <div style={{
+                border: "2px solid black",
+                width: "50px",
+                height: "50px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center"
+            }}>
+                {showChild
+                    ?<Counter />
+                    : null
+                }
+            </div>
+            <label>
+
+                clear data
+            </label>
+        </div>
+
+        appLog('render end');
+
+        return element;
+    }
+
+    ReactDOM.render(<App />,rootElem)
+
+</script>
+
+</body>
+</html>
