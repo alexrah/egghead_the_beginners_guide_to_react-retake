@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Make Dynamic Forms with React</title>
+</head>
+<body>
+<a href="https://egghead.io/lessons/react-make-dynamic-forms-with-react-59050418" target="_blank">https://egghead.io/lessons/react-make-dynamic-forms-with-react-59050418</a>
+<br>
+<br>
+<div id="root"></div>
+
+<!-- ReactJS create element -->
+<script src="https://unpkg.com/react@16.12.0/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.14.9/babel.js"></script>
+
+<script type="text/babel">
+    const rootElem = document.getElementById('root');
+
+    function SimpleForm(){
+        
+        const [username,setUserName] = React.useState('');
+        const isLowerCase = username === username.toLowerCase()
+        const isError = isLowerCase ? null : 'Username must be lowercase'
+
+        const handleSubmit = (e) => {
+            e.preventDefault();
+            e.persist();
+            console.log(e);
+            console.dir(e.target);
+            const name = e.target.elements.inputName.value
+
+            alert(`Hello ${name}`)
+        }
+
+        const handleChange = (e) => {
+          setUserName(e.target.value);
+        }
+
+        const form = (
+            <form onSubmit={handleSubmit}>
+                <label htmlFor="inputName">Name:</label>
+                <input id="inputName" type="text" onChange={handleChange}/>
+                <button disabled={Boolean(isError)} type="submit">Submit</button>
+                <p style={{color: "red"}}>{isError}</p>
+            </form>
+        )
+        return form
+    }
+
+    ReactDOM.render(<SimpleForm />,rootElem)
+
+</script>
+
+</body>
+</html>
