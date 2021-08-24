@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lifting and colocating React State</title>
+</head>
+<body>
+<a href="https://egghead.io/lessons/react-lifting-and-colocating-react-state" target="_blank">https://egghead.io/lessons/react-lifting-and-colocating-react-state</a>
+<br>
+<br>
+<div id="root-one"></div>
+<div id="root-two"></div>
+
+<!-- ReactJS create element -->
+<script src="https://unpkg.com/react@16.12.0/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.14.9/babel.js"></script>
+
+
+<script type="text/babel">
+
+    function Name({name,onNameChange}){
+        return (
+            <label>
+                Your name is: {name}
+                <input type="text" onChange={onNameChange} value={name}/>
+            </label>
+        )
+    }
+
+
+    function AnimalColocatingState(){
+        const [animal,setAnimal] = React.useState('');
+        return (
+            <label>
+                Your favorite animal is: {animal}
+                <input type="text" onChange={(e)=> setAnimal(e.target.value)} value={animal}/>
+            </label>
+        )
+    }
+
+    function AnimalLiftingStateToParent({animal,onAnimalChange}){
+        return (
+            <label>
+                Your favorite animal is: {animal}
+                <input type="text" onChange={onAnimalChange} value={animal}/>
+            </label>
+        )
+    }
+
+    function DisplayName({name}){
+        return <p>Hi {name}, you are great!</p>
+    }
+
+    function DisplayNameAndAnimal({name,animal}){
+        return <p>Hi {name}, you favorite name is {animal}!</p>
+    }
+
+
+    function AppColocatingState(){
+        const [name,setName] = React.useState('');
+
+        return (
+            <form>
+                <h2>AppColocatingState</h2>
+                <Name name={name} onNameChange={(e)=>setName(e.target.value)} />
+                <br/>
+                <AnimalColocatingState />
+                <DisplayName name={name}/>
+            </form>
+        )
+    }
+
+    function AppLiftingState(){
+        const [name,setName] = React.useState('');
+        const [animal,setAnimal] = React.useState('');
+
+        return (
+            <form>
+                <h2>AppLiftingState</h2>
+                <Name name={name} onNameChange={(e)=>setName(e.target.value)} />
+                <br/>
+                <AnimalLiftingStateToParent animal={animal} onAnimalChange={(e)=> setAnimal(e.target.value)} />
+                <DisplayNameAndAnimal name={name} animal={animal}/>
+            </form>
+        )
+    }
+
+    ReactDOM.render(<AppColocatingState />,document.getElementById('root-one'))
+    ReactDOM.render(<AppLiftingState />,document.getElementById('root-two'))
+
+</script>
+
+</body>
+</html>
