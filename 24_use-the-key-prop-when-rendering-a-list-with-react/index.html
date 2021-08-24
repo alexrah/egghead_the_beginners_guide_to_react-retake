@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Use the key prop when Rendering a List with React</title>
+</head>
+<body>
+<a href="https://egghead.io/lessons/react-use-the-key-prop-when-rendering-a-list-with-react-b31bfa42" target="_blank">https://egghead.io/lessons/react-use-the-key-prop-when-rendering-a-list-with-react-b31bfa42</a>
+<br>
+<br>
+<div id="root"></div>
+
+<!-- ReactJS create element -->
+<script src="https://unpkg.com/react@16.12.0/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.14.9/babel.js"></script>
+<!--<script src="https://unpkg.com/react-error-boundary@1.2.5/dist/umd/react-error-boundary.js"></script>-->
+
+
+<script type="text/babel">
+
+    const rootElem = document.getElementById('root');
+
+    const itemList = [
+        {id: "a",value: "apple"},
+        {id: "ao",value: "orange"},
+        {id: "g",value: "grape"},
+        {id: "p",value: "pear"},
+    ]
+
+    function App(){
+        const [items,setItems] = React.useState(itemList);
+
+        const addItem = () => {
+            console.log('addItem');
+            setItems([...items, itemList.find( i => !items.includes(i) )])
+        }
+
+        const removeItem = (item) => {
+            console.log('removeItem');
+            setItems( items.filter( (elem) => elem !== item ) )
+        }
+
+        console.log(items);
+        return (
+            <div>
+                <button disabled={items.length >= itemList.length} onClick={addItem}>Add Item</button>
+                <ul style={{listStyle: 'none', paddingLeft: 0}}>
+                    {items.map( item => (
+                        <li key={item.id}>
+                            <button onClick={ () => removeItem(item)}>remove</button>{' '}
+                            <label htmlFor={`${item.value}-input`}>{item.value}</label>{' '}
+                            <input type="text" id={`${item.value}-input`} defaultValue={item.value}/>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        )
+    }
+
+    ReactDOM.render(<App />,rootElem)
+
+</script>
+
+</body>
+</html>
